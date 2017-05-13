@@ -65,15 +65,19 @@ def generator(samples, batch_size):
 
 			X_train = np.array(images)
 			y_train = np.array(measurements)
+			X, y = shuffle(X_train, y_train)
+			yield (X,y)
 
-			yield shuffle(X_train, y_train)
-
-batch_size = 32 
+batch_size = 4 
 train_generator = generator(train_samples, batch_size=batch_size)
 validation_generator = generator(validation_samples, batch_size=batch_size)
 train_steps = len(train_samples)//batch_size
 val_steps = len(validation_samples)//batch_size
 
+for i in range(3):
+    print(len(generator(train_samples,batch_size))
+    #print(x_batch.shape, y_batch.shape)
+exit()
 model = Sequential()
 model.add(Lambda(lambda x:  x / 255.0 - 0.5, input_shape=(160,320,3)))
 model.add(Convolution2D(24, (5, 5), activation="relu"))
