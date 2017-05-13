@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import pickle
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Activation
+from keras.layers import Flatten, Dense, Lambda, Activation, Cropping2D
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import MaxPooling2D
 from sklearn.model_selection import train_test_split
@@ -15,6 +15,10 @@ with open('driving_data.p', mode='rb') as f:
 
 data, labels = driving_data['images'], driving_data['labels']
 X_train, X_val, y_train, y_val = train_test_split(data, labels, test_size=0.2, random_state=0)
+#X_train = X_train[:1000]
+#y_train = y_train[:1000]
+#X_val = X_val[:1000]
+#y_val = y_val[:1000]
 
 def generator(data, labels, batch_size):
 	start = 0
@@ -48,18 +52,21 @@ train_steps = X_train.shape[0]//batch_size + 1
 val_steps = X_val.shape[0]//batch_size + 1
 
 model = Sequential()
-model.add(Lambda(lambda x:  x / 255.0 - 0.5, input_shape=(160,320,3)))
-model.add(Convolution2D(24, (5, 5), activation="relu"))
-model.add(Convolution2D(36, (5, 5), activation="relu"))
-model.add(Convolution2D(48, (5, 5), activation="relu"))
-model.add(Convolution2D(64, (3, 3), activation="relu"))
-model.add(Convolution2D(64, (3, 3), activation="relu"))
+model.add(Lambda(lambda x:  x / 255.0 - 0.5, input_shape=(160,320,3), output_shape=(160,320,3)))
+#model.add(Cropping2D(cropping=((70,25), (0,0))))
+model.add(Convolution2D(16, (8, 8), activation="relu"))
+model.add(Convolution2D(32, (5, 5), activation="relu"))
+model.add(Convolution2D(64, (5, 5), activation="relu"))
+#model.add(Convolution2D(48, (5, 5), activation="relu"))
+#model.add(Convolution2D(64, (3, 3), activation="relu"))
+#model.add(Convolution2D(64, (3, 3), activation="relu"))
 model.add(Flatten())
-model.add(Dense(100))
-model.add(Dense(50))
+#model.add(Dense(512))
+model.add(Dense(64))
+model.add(Dense(32))
 model.add(Dense(1))
 
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
 model.fit_generator(generator=train_generator, steps_per_epoch=train_steps, 
 					validation_data=validation_generator, 
 					validation_steps=val_steps, epochs=5)
