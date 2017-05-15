@@ -1,5 +1,7 @@
 .ipynb_checkpoints/
 data/
-*.h5
+backup_data/
 .DS_Store
 *.tar.gz
+run/
+__pycache__

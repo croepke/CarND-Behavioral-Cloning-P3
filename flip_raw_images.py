@@ -68,6 +68,5 @@ y = np.array(measurements)
 
 data = {'images': np.array(X), 'labels': np.array(y)}
 
-# Save to pickle file
 with open('driving_data.p', mode='wb') as f:
 	pickle.dump(data, f)
