@@ -1,15 +1,12 @@
-import csv 
 import cv2
 import numpy as np
 import pickle
 from keras.models import Sequential
-from keras.layers import Flatten, Dropout, Dense, Lambda, Activation, Cropping2D, Reshape, ELU
+from keras.layers import Flatten, Dropout, Dense, Lambda, Activation, Cropping2D, ELU
 from keras.layers.convolutional import Convolution2D
-from keras.layers.pooling import MaxPooling2D
 from keras.regularizers import l2
 from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
-from sklearn.utils import shuffle
 
 samples = []
 with open('driving_data.p', mode='rb') as f:
