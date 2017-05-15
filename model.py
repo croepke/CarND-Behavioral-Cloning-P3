@@ -111,11 +111,13 @@ model.add(Convolution2D(32, (5, 5), strides=(2, 2), padding='same', kernel_regul
 model.add(ELU())
 model.add(Convolution2D(64, (5, 5), strides=(2, 2), padding='same', kernel_regularizer=l2(L2_REG_SCALE)))
 model.add(Flatten())
+model.add(Dropout(.2))
+model.add(ELU())
 model.add(Dense(512))
-#model.add(Dense(32))
-#model.add(Dense(32))
-#model.add(Dense(16))
+model.add(Dropout(.5))
+model.add(ELU())
 model.add(Dense(1))
+
 #model = Sequential()
 #model.add(Lambda(preprocess, input_shape=(160, 320, 3), output_shape=(160, 320, 3)))
 #model.add(Cropping2D(cropping=((30,0), (0,0))))
@@ -135,5 +137,5 @@ model.compile(loss='mse', optimizer=Adam(lr=LR))
 
 model.fit_generator(generator=train_generator, steps_per_epoch=train_steps, 
 					validation_data=validation_generator, 
-					validation_steps=val_steps, epochs=5)
+					validation_steps=val_steps, epochs=10)
 model.save('model.h5')
