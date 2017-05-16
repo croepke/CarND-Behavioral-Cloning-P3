@@ -123,7 +123,7 @@ Since there were a few spots where the vehicle fell off the track I collected ad
 
 ![image7]
 
-For training I used all images (center, left, and right) as well as their flipped equivalents. Left and right images were corrected with a steering angle +- 0.2, in order to compensate for the relative position to the left or to the right of the center camera. All preprocessing has been done in `flip_raw_images.py`. 
+For training I used all images (center, left, and right) as well as their flipped equivalents - overall 55.279. Left and right images were corrected with a steering angle +- 0.2, in order to compensate for the relative position to the left or to the right of the center camera. All preprocessing has been done in `flip_raw_images.py`. 
 
 I finally randomly shuffled the data set and put 20% of the data into a validation set (`model.py` code line 18). 
 
